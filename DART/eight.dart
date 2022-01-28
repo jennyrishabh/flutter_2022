@@ -44,14 +44,14 @@ void main(){
 
 // -- - -- -- -- -- -- -- -- --- -- - --- -- - -- --- -- -- -- -- -- -- -- - 
 
-Map<int,Function> outerfunction(var n){
+Map<int,Function> outerfunction(num n){
 	
 	//Map<int,int> map = {"1" : a , "2" : b , "3": c,"4" :d,"5" : e,"6" :f,"7" : g ,"8" :h};
 
 	Function a = (){
 		int p=1;int temp=0;
 		while(n>0){
-			temp=(n%2)*p + temp;
+			temp=(n.toInt()%2)*p + temp;
 			p*=10;
 			n = n/2;	
 		}
