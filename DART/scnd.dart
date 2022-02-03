@@ -1,13 +1,9 @@
-import "dart:io";
+import './one.dart';
+
 
 void main(){
-
-int? a ;	
-//int a;
-print(a);
-
-String? name = stdin.readLineSync();
-print("enter name : ");
-print("name is  : ${name}");
-
+	Emp ram = new Emp(); // we can rempve the new keyword
+	print(ram.id);
+	print(ram.name);
+	print(ram.salary);
 }
