@@ -38,9 +38,10 @@ SRP Follow, Good Encapsulation.
 class Student{
 	
 	//private
+	// using static , const , final keywords also 
 	late String _name;
 	late int _rollno;
-	String clgName = "MCU CLG";
+	static const  String clgName = "MCU CLG";
 
 
 
@@ -51,13 +52,18 @@ class Student{
 
   get rollno => this._rollno;
 
-  set rollno(value) => this._rollno = value;
+  //set rollno(value) => this._rollno = value;
 
+   Student() {
+    this._rollno = 0;
+    this._name = "";
+    print("Default Cons Call");
+  }
 
 
   Student.setValues({required int rollno, required String name}) {
-    _rollno = rollno;
-    _name = name;
+    this._rollno = rollno;
+    this._name = name;
     checkName(_name);
   }
 
@@ -72,7 +78,7 @@ class Student{
 		temp[i] = temp[i].substring(0,1).toUpperCase() + temp[i].substring(1,);
 	}
 
-	print('finally becomes : $temp');
+	//print('finally becomes : $temp');
 
 	String test="";
 	for(int i=0;i<temp.length;i++){
@@ -80,7 +86,7 @@ class Student{
 	}
 	//print('name becomes ;$test ');
 	_name = test.toString();
-	//print('name becomes ;$_name ');
+	print('name becomes ;$_name ');
 
   }
 
