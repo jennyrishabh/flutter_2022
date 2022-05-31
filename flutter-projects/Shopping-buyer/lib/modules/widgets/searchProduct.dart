@@ -22,7 +22,7 @@ class _searchProduct extends State<searchProduct> {
   List<Product> ls = [];
   List<Product> finalproduct = [];
 
-  @override
+  
   void initState() {
     finalproduct.addAll(ls);
     super.initState();
@@ -31,9 +31,7 @@ class _searchProduct extends State<searchProduct> {
   void filterSearchResults() {
     String query = editingController.text;
     List<Product> dummySearchList = ls;
-    print(ls.toString() +
-        " ########################################### " +
-        finalproduct.toString());
+    print(ls.toString() +" ########################################### " +finalproduct.toString());
     //dummySearchList.addAll(ls);
     if (query.isNotEmpty) {
       List<Product> dummyListData = [];
@@ -45,13 +43,13 @@ class _searchProduct extends State<searchProduct> {
       });
       setState(() {
         finalproduct.clear();
-        finalproduct = (dummyListData);
+        finalproduct = dummyListData;
       });
       return;
     } else {
       setState(() {
         finalproduct.clear();
-        finalproduct = (ls);
+        finalproduct = ls;
       });
     }
   }
@@ -65,19 +63,12 @@ class _searchProduct extends State<searchProduct> {
       ),
       body: SafeArea(
           child: Container(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.only(top: 10),
             child: ListView(
               children: [
                 Container(
                   height: 60,
                   child: TextField(
-                    /*
-                onChanged: (value) {
-                  print(value);
-
-                  //filterSearchResults(value);
-                  // Future.delayed(Duration(seconds: 2), filterSearchResults);
-                },*/
                     controller: editingController,
                     decoration: InputDecoration(
                       labelText: "Search",
@@ -91,23 +82,7 @@ class _searchProduct extends State<searchProduct> {
                       ),
                     ),
                   ),
-
-                  /*TextField(
-                onChanged: (value) {
-                  Future.delayed(Duration(seconds: 2), () {
-                    print('value fetch is : ' + value);
-                    // Check for value here !!
-                    setState(() {});
-                  });
-                },
-                decoration: InputDecoration(
-                  hintText: 'search your product !!',
-                  prefixIcon: Icon(Icons.search),
                 ),
-              ),*/
-                ),
-
-                // this container is for fetching the product list !!
                 Container(
                     height: deviceSize.height - 60,
                     child: StreamBuilder(
@@ -127,24 +102,32 @@ class _searchProduct extends State<searchProduct> {
                               child: Text('Some error in retrieving products'),
                             );
                           } else {
+                            ls = snapshot.data!.docs
+                                .map((e) => Product.fromMap(e, e.id))
+                                .toList();
+                            if (editingController.text.isEmpty) {
+                              finalproduct = ls;
+                            }
                             return ListView.builder(
                               // scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext ctx, int index) {
-                                var doc = snapshot.data!.docs[index].data();
-                                product = Product.fromMap(
-                                    doc, snapshot.data!.docs[index].id);
-                                ls.add(product);
+                                // product = Product.fromMap(
+                                //     doc, snapshot.data!.docs[index].id);
+                                // ls.add(product);
+
                                 return ListTile(
                                     leading: Container(
                                         width: deviceSize.width / 5.2,
-                                        child: Image.network(product.url)),
-                                    title: Text(product.name),
+                                        child:
+                                        Image.network(finalproduct[index].url)),
+                                    title: Text(finalproduct[index].name),
                                     // subtitle: Text(snapshot.data![index].desc),
                                     subtitle: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(product.desc),
-                                        Text("Quantity : ${product.qty}")
+                                        Text(finalproduct[index].desc),
+                                        Text(
+                                            "Quantity : ${finalproduct[index].qty}")
                                       ],
                                     ),
                                     trailing: Row(
@@ -167,15 +150,16 @@ class _searchProduct extends State<searchProduct> {
                                       ],
                                     ));
                               },
-                              itemCount: snapshot.data!.docs.length,
+                              itemCount: finalproduct.length,
                             );
                           }
                         }))),
               ],
             ),
-            // child:Text("Your widget")
           )),
     );
   }
 }
+
+
 
